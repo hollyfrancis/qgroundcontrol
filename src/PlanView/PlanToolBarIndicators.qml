@@ -69,20 +69,13 @@ Item {
     readonly property real _margins: ScreenTools.defaultFontPixelWidth
 
     function getMissionTime() {
-        if (!_missionTime) {
+        if (_missionTime == 0) {
             return "00:00:00"
         }
+        // On some versions of jscript, passing in year=0 returns bad time formatting, on some it doesnt. Setting year to a specific
+        // year makes it always work correctly.
         var t = new Date(2021, 0, 0, 0, 0, Number(_missionTime))
-        var days = Qt.formatDateTime(t, 'dd')
-        var complete
-
-        if (days == 31) {
-            days = '0'
-            complete = Qt.formatTime(t, 'hh:mm:ss')
-        } else {
-            complete = days + " days " + Qt.formatTime(t, 'hh:mm:ss')
-        }
-        return complete
+        return Qt.formatTime(t, 'hh:mm:ss')
     }
 
     // Progress bar

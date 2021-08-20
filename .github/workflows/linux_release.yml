@@ -1,12 +1,6 @@
 name: Linux Release
 
-on:
-  push:
-    branches:
-    - 'master'
-  pull_request:
-    branches:
-    - '*'
+on: [push, pull_request]
 
 defaults:
   run:
@@ -52,7 +46,6 @@ jobs:
         run: |
           string(TIMESTAMP current_date "%Y-%m-%d-%H;%M;%S" UTC)
           message("::set-output name=timestamp::${current_date}")
-
       - name: ccache cache files
         uses: actions/cache@v2
         with:
@@ -68,7 +61,6 @@ jobs:
             echo "compression_level = 5" >> ~/.ccache/ccache.conf
             ccache -s
             ccache -z
-
       - name: Create build directory
         run:  mkdir ${{ runner.temp }}/shadow_build_dir
 
@@ -77,13 +69,12 @@ jobs:
         run:  |
               qmake -r ${SOURCE_DIR}/qgroundcontrol.pro CONFIG+=installer CONFIG+=DailyBuild
               make -j2
-
       - name: ccache post-run
         run:  ccache -s
 
       - name: Create AppImage
-        working-directory:  ${{ runner.temp }}/shadow_build_dir  
-        run:                ${SOURCE_DIR}/deploy/create_linux_appimage.sh ${SOURCE_DIR} ./staging ./package;
+        working-directory:  ${{ runner.temp }}/shadow_build_dir
+        run:                ${SOURCE_DIR}/deploy/create_linux_appimage.sh ${SOURCE_DIR} $PWD/staging $PWD/package;
 
       - name: Save artifact
         uses: actions/upload-artifact@master

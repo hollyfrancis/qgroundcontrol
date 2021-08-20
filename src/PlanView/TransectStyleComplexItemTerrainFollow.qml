@@ -9,40 +9,21 @@ import QGroundControl.FactSystem    1.0
 import QGroundControl.FactControls  1.0
 
 ColumnLayout {
-    spacing: _margin
-    visible: tabBar.currentIndex === 2
+    anchors.left:   parent.left
+    anchors.right:  parent.right
+    spacing:        _margin
+    visible:        tabBar.currentIndex === 2
 
-    property var missionItem
+    property var    missionItem
 
-    MouseArea {
-        Layout.preferredWidth:  childrenRect.width
-        Layout.preferredHeight: childrenRect.height
+    QGCCheckBox {
+        id:         followsTerrainCheckBox
+        text:       qsTr("Vehicle follows terrain")
+        checked:    missionItem.followTerrain
+        onClicked:  missionItem.followTerrain = checked
 
-        onClicked: {
-            var removeModes = []
-            var updateFunction = function(altMode){ missionItem.cameraCalc.distanceMode = altMode }
-            removeModes.push(QGroundControl.AltitudeModeMixed)
-            if (!missionItem.masterController.controllerVehicle.supportsTerrainFrame) {
-                removeModes.push(QGroundControl.AltitudeModeTerrainFrame)
-            }
-            if (!QGroundControl.corePlugin.options.showMissionAbsoluteAltitude || !_missionItem.cameraCalc.isManualCamera) {
-                removeModes.push(QGroundControl.AltitudeModeAbsolute)
-            }
-            mainWindow.showPopupDialogFromComponent(altModeDialogComponent, { rgRemoveModes: removeModes, updateAltModeFn: updateFunction })
-        }
-
-        Component { id: altModeDialogComponent; AltModeDialog { } }
-
-        RowLayout {
-            spacing: ScreenTools.defaultFontPixelWidth / 2
-
-            QGCLabel { text: QGroundControl.altitudeModeShortDescription(missionItem.cameraCalc.distanceMode) }
-            QGCColoredImage {
-                height:     ScreenTools.defaultFontPixelHeight / 2
-                width:      height
-                source:     "/res/DropArrow.svg"
-                color:      qgcPal.text
-            }
+        Binding on checkedState {
+            value: missionItem.followTerrain ? Qt.Checked : Qt.Unchecked
         }
     }
 
@@ -51,7 +32,7 @@ ColumnLayout {
         columnSpacing:      _margin
         rowSpacing:         _margin
         columns:            2
-        enabled:            missionItem.cameraCalc.distanceMode === QGroundControl.AltitudeModeCalcAboveTerrain
+        enabled:            followsTerrainCheckBox.checked
 
         QGCLabel { text: qsTr("Tolerance") }
         FactTextField {

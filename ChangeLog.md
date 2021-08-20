@@ -2,7 +2,16 @@
 
 Note: This file only contains high level features or important fixes.
 
-## 4.1 - Daily build
+## 4.1
+
+### 4.1.2 - Not yet released
+* Bug: Radio setup - Fix double send of `MAV_CMD_PREFLIGHT_CALIBRATION` causing "Unable to send command" error. [GitHub Issue](https://github.com/mavlink/qgroundcontrol/issues/9381)
+* Bug: Fly View - Pause - Fix "Unable to send command" error. [GitHub Issue](https://github.com/mavlink/qgroundcontrol/issues/9397)
+
+### 4.1.1 - Stable
+* Fix TCP link comms
+
+### 4.1.0
 
 ### 4.1.2 - Not yet released
 * Bug: Radio setup - Fix double send of `MAV_CMD_PREFLIGHT_CALIBRATION` causing "Unable to send command" error.
@@ -30,30 +39,30 @@ Note: This file only contains high level features or important fixes.
 
 ## 4.0
 
-## 4.0.9 - Not yet released
+### 4.0.9
 
 * Don't auto-connect to second Cube Orange/Yellow composite port
 * Plan: Fix bugs associated with mission commands which specify and altitude but no lat/lon
 * Fix bug which could prevent view switching from working after altitude mode warning dialog would pop up
 
-## 4.0.8 - Stable
+### 4.0.8
 
 * iOS: Modify QGC file storage location to support new Files app
 * Mobile: Fix Log Replay status bar file selection
 
-## 4.0.7 - Stable
+### 4.0.7
 
 * Fix video page sizing
 * Virtual Joystick: Fix right stick centering. Fix/add support for rover/sub reverse throttle support.
 * Fix display of multiple ADSB vehicles
 
-### 4.0.6 - Stable
+### 4.0.6
 
 * Analyze/Log Download - Fix download on mobile versions of QGC
 * Fly: Fix problems where Continue Mission and Change Altitude were not available after a Mission Pause.
 * PX4 Flow: Fix video display problem
 
-### 4.0.5 - Stable
+### 4.0.5
 
 * Solo: Fix mission upload failures
 * Plan: Fix crash when using Create Plan - Survey for fixed wing vehicle

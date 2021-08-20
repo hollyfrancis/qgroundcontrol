@@ -1,12 +1,6 @@
 name: Windows Release
 
-on:
-  push:
-    branches:
-    - 'master'
-  pull_request:
-    branches:
-    - '*'
+on: [push, pull_request]
 
 defaults:
   run:
@@ -78,7 +72,8 @@ jobs:
         working-directory: ${{ runner.temp }}\shadow_build_dir
         run:  |
               qmake -r ${{ env.SOURCE_DIR }}\qgroundcontrol.pro CONFIG+=installer CONFIG+=DailyBuild
-              ${{ runner.temp }}\jom\jom -j2
+              # We build with a single core to avoid memory problems inside CI
+              ${{ runner.temp }}\jom\jom -j1
 
       - name: Save installer artifact
         uses: actions/upload-artifact@master
